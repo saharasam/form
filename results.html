@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>የትንተና ውጤት - Analysis Results</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Ethiopic:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --primary-hover: #60a5fa;
+            --secondary: #fb923c;
+            --danger: #f87171;
+            --bg: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --radius-lg: 12px;
+            --radius-md: 8px;
+            --shadow: 0 10px 15px -3px rgb(0 0 0 / 0.5);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', 'Noto Sans Ethiopic', sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 1rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-top: 1rem;
+        }
+
+        .container {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .analysis-content {
+            font-size: 1.1rem;
+            color: #e2e8f0;
+        }
+
+        .analysis-content h1, .analysis-content h2, .analysis-content h3 {
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .analysis-content p {
+            margin-bottom: 1rem;
+        }
+
+        .analysis-content ul, .analysis-content ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .analysis-content li {
+            margin-bottom: 0.5rem;
+        }
+
+        .analysis-content blockquote {
+            border-left: 4px solid var(--secondary);
+            padding-left: 1rem;
+            font-style: italic;
+            color: var(--text-muted);
+            margin: 1.5rem 0;
+        }
+
+        .actions {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 1.25rem;
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #334155;
+            color: white;
+            border: 1px solid var(--border);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
+
+        @media print {
+            .actions { display: none !important; }
+            body { background: white; color: black; padding: 0; }
+            .container { box-shadow: none; border: none; background: white; width: 100%; }
+            .analysis-content h1, .analysis-content h2, .analysis-content h3 { color: black !important; }
+            .analysis-content { color: black !important; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>
+            <span lang="am">የትንተና ውጤት</span>
+            <span lang="om">Xiinxala Argannoo</span>
+        </h1>
+    </header>
+
+    <main class="container">
+        <div id="loading" style="text-align: center; padding: 2rem;">
+            <p>Loading analysis...</p>
+        </div>
+        <div id="results" class="analysis-content" style="display: none;">
+            <!-- AI analysis will be injected here -->
+        </div>
+
+        <div class="actions">
+            <button class="btn btn-primary" onclick="window.print()">
+                <span lang="am">ውጤቱን አትም (Print)</span>
+                <span lang="om">Maxxansi (Print Results)</span>
+            </button>
+            <a href="index.html" class="btn btn-secondary">
+                <span lang="am">ወደ መጠይቁ ተመለስ</span>
+                <span lang="om">Gara gucaatti deebi'i</span>
+            </a>
+        </div>
+    </main>
+
+    <script type="module">
+        import { marked } from 'marked';
+        
+        const analysis = localStorage.getItem('ai_analysis');
+        if (analysis) {
+            document.getElementById('loading').style.display = 'none';
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.style.display = 'block';
+            resultsDiv.innerHTML = marked.parse(analysis);
+        } else {
+            document.getElementById('loading').innerHTML = '<p>No analysis found. Please complete the questionnaire first.</p>';
+        }
+    </script>
+</body>
+</html>
